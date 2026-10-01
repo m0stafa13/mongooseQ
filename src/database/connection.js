@@ -8,6 +8,7 @@ export const dbConnection = async () => {
     }).catch((err) => {
         console.log("something went wrong to connect with db ", err);
     })
+    mongoose.syncIndexes()
 }
 
 
