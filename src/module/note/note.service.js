@@ -171,4 +171,33 @@ export const getNoteById = async (user, note) => {
         }
     }
 }
-//get 
+
+
+//get note by content and should logged user 
+export const getNoteByContent = async (content, userId) => {
+
+
+    let getNote = await noteModel.find({
+        userId,
+        content
+    })
+    return getNote
+
+}
+
+
+// get note and and user info 
+export const getNoteAndAuthor = async (user) => {
+    let { userId } = user
+    let getNote = await noteModel.find({ userId }).select("-_id -content").populate("userId", "  email")
+    if (getNote.length > 0) {
+        return {
+            message: 'user founded successfully'
+            , note: getNote
+        }
+    } else {
+        return {
+            message: 'user has no posts'
+        }
+    }
+}
