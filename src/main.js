@@ -9,7 +9,11 @@ app.use(express.json())
 dbConnection()
 app.use("/auth", userRouter)
 // app.use("/posts", noteRouter)
-
+app.all("/*path", (req, res) => {
+    res.json({
+        message: "wrong path"
+    })
+})
 app.listen(env.port, () => {
     console.log(`express service is running in port ${env.port}`);
 })

@@ -28,6 +28,10 @@ router.get("/find-user/:id", async (req, res) => {
     let data = await getUserById(req.params)
     res.json(data)
 })
-
+router.all("/*path", (req, res) => {
+    res.json({
+        message: "wrong path"
+    })
+})
 
 export default router
