@@ -1,5 +1,5 @@
 import Router from "express"
-import { createNote, deleteNote, getLimitNote, updateAllNoteData, updateNote, updateTitle } from "./note.service.js"
+import { createNote, deleteNote, getLimitNote, getNoteById, updateAllNoteData, updateNote, updateTitle } from "./note.service.js"
 const router = Router()
 // create new note 
 router.post("/post-note/:userId", async (req, res) => {
@@ -41,5 +41,9 @@ router.get("/get-note-limit/:userid", async (req, res) => {
     let data = await getLimitNote(req.params, req.query)
     res.json(data)
 })
-
+// get note by id 
+router.get("/get-note-by-id/:userId", async (req, res) => {
+    let data = await getNoteById(req.params, req.query)
+    res.json(data)
+})
 export default router

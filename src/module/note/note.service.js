@@ -155,3 +155,20 @@ export const getLimitNote = async (params, query) => {
         }
     }
 }
+// get note by id 
+export const getNoteById = async (user, note) => {
+    let { userId } = user
+    let { id } = note
+    let data = await noteModel.findById({ _id: id, userId })
+    if (data) {
+        return {
+            message: "note is founded successfully",
+            data
+        }
+    } else {
+        return {
+            message: "note is not found or you are not author"
+        }
+    }
+}
+//get 
