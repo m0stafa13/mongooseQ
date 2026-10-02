@@ -245,4 +245,17 @@ export const getNoteAggregate = async (user) => {
         }
     }
 }
-
+// delete note with user id 
+export const deleteAllNoteForUser = async (user) => {
+    let { userId } = user
+    let deletedNote = await noteModel.deleteMany({ userId })
+    if (deletedNote.deletedCount > 0) {
+        return {
+            message: "user's note deleted successfully"
+        }
+    } else {
+        return {
+            message: "user has not notes"
+        }
+    }
+}
