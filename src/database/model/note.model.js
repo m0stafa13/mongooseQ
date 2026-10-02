@@ -1,6 +1,6 @@
 import mongoose, { Types } from "mongoose"
 
-const postSchema = mongoose.Schema({
+const noteSchema = mongoose.Schema({
     title: {
         type: String,
         required: true,
@@ -25,4 +25,4 @@ const postSchema = mongoose.Schema({
     timestamps: true
 })
 
-export const postModel = mongoose.model("post", postSchema)
+export const noteModel = mongoose.model("note", noteSchema)

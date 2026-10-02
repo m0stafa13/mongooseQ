@@ -2,12 +2,14 @@ import express from "express"
 import { env } from "./config/config.service.js"
 import { dbConnection } from "./database/connection.js"
 import userRouter from "./module/user/user.controller.js"
+import noteRouter from "./module/note/note.controller.js"
 // import noteRouter from "./module/Notes/note.controller.js"
 let app = express()
 app.use(express.json())
 // connection 
 dbConnection()
 app.use("/auth", userRouter)
+app.use("/notes" ,noteRouter)
 // app.use("/posts", noteRouter)
 app.all("/*path", (req, res) => {
     res.json({
