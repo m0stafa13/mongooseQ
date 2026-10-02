@@ -172,21 +172,27 @@ export const getNoteById = async (user, note) => {
         }
     }
 }
-
-
 //get note by content and should logged user 
-export const getNoteByContent = async (content, userId) => {
-
-
-    let getNote = await noteModel.find({
-        userId,
-        content
-    })
-    return getNote
-
+export const getNoteByContent = async (data, id) => {
+    try {
+        let { content } = data;
+        let { userId } = id
+        let getNote = await noteModel.find({ userId, content: { $regex: content } })
+        if (getNote) {
+            return {
+                notes: getNote
+            }
+        } else {
+            return {
+                message: "user has posts contain this content"
+            }
+        }
+    } catch (error) {
+        return {
+            error: error.message
+        }
+    }
 }
-
-
 // get note and and user info 
 export const getNoteAndAuthor = async (user) => {
     try {

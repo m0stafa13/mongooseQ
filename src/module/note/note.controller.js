@@ -48,9 +48,8 @@ router.get("/get-note-by-id/:userId", async (req, res) => {
 })
 // get note by content
 router.get("/get-note-content/:userId", async (req, res) => {
-    let { content } = req.query
-    let { userId } = req.params
-    let data = await getNoteByContent(content, userId)
+
+    let data = await getNoteByContent(req.query, req.params)
     res.json(data)
 })
 // get note and user by user id 
