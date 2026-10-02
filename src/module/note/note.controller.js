@@ -1,5 +1,5 @@
 import Router from "express"
-import { createNote, deleteNote, getLimitNote, getNoteAndAuthor, getNoteByContent, getNoteById, updateAllNoteData, updateNote, updateTitle } from "./note.service.js"
+import { createNote, deleteNote, getLimitNote, getNoteAggregate, getNoteAndAuthor, getNoteByContent, getNoteById, updateAllNoteData, updateNote, updateTitle } from "./note.service.js"
 const router = Router()
 // create new note 
 router.post("/post-note/:userId", async (req, res) => {
@@ -56,6 +56,11 @@ router.get("/get-note-content/:userId", async (req, res) => {
 // get note and user by user id 
 router.get("/get-note-user/:userId", async (req, res) => {
     let data = await getNoteAndAuthor(req.params)
+    res.json(data)
+})
+// get note and user and aggregate 
+router.get("/get-note-aggregate/:userId", async (req, res) => {
+    let data = await getNoteAggregate(req.params)
     res.json(data)
 })
 export default router

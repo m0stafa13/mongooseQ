@@ -1,3 +1,4 @@
+import { Types } from "mongoose"
 import { noteModel } from "../../database/model/note.model.js"
 import { userModel } from "../../database/model/user.model.js"
 // crete now note to user 
@@ -188,16 +189,60 @@ export const getNoteByContent = async (content, userId) => {
 
 // get note and and user info 
 export const getNoteAndAuthor = async (user) => {
-    let { userId } = user
-    let getNote = await noteModel.find({ userId }).select("-_id -content").populate("userId", "  email")
-    if (getNote.length > 0) {
-        return {
-            message: 'user founded successfully'
-            , note: getNote
+    try {
+        let { userId } = user
+        let getNote = await noteModel.find({ userId }).select("-_id -content").populate("userId", "  email")
+        if (getNote.length > 0) {
+            return {
+                message: 'user founded successfully'
+                , note: getNote
+            }
+        } else {
+            return {
+                message: 'user has no posts'
+            }
         }
-    } else {
+    } catch (error) {
         return {
-            message: 'user has no posts'
+            message: "put data in correct way"
         }
     }
 }
+// get note and aggregate
+export const getNoteAggregate = async (user) => {
+    try {
+        let { userId } = user
+        let userIdObject = new Types.ObjectId(userId)
+        let getNote = await noteModel.aggregate([
+            {
+                $match: {
+                    userId: userIdObject
+                }
+            }
+            ,
+            {
+                $lookup: {
+                    from: "users",
+                    localField: "userId",
+                    foreignField: "_id",
+                    as: "user"
+                }
+            }
+        ])
+        if (getNote.length > 0) {
+            return {
+                message: "note found successfully",
+                note: getNote
+            }
+        } else {
+            return {
+                message: "user has no posts"
+            }
+        }
+    } catch (error) {
+        return {
+            message: "invalid data input"
+        }
+    }
+}
+
